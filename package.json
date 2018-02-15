@@ -1,0 +1,26 @@
+{
+  "name": "share-loader",
+  "version": "0.0.1",
+  "author": "MFrankel",
+  "description": "share loader module for webpack",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MrFrankel/share-loader.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MrFrankel/share-loader/issues"
+  },
+  "homepage": "https://github.com/MrFrankel/share-loader",
+  "peerDependencies": {
+    "webpack": "^2.0.0 || ^3.0.0"
+  },
+  "engines": {
+    "node": ">= 4.3 < 5.0.0 || >= 5.10"
+  }
+}
