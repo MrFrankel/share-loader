@@ -1,5 +1,5 @@
-[![npm](https://img.shields.io/npm/v/ngx-popper.svg?style=flat-square)](https://www.npmjs.com/package/share-loader)
-[![npm](https://img.shields.io/npm/dm/ngx-popper.svg?style=flat-square)](https://www.npmjs.com/package/share-loader)
+[![npm](https://img.shields.io/npm/v/share-loader.svg?style=flat-square)](https://www.npmjs.com/package/share-loader)
+[![npm](https://img.shields.io/npm/dm/share-loader.svg?style=flat-square)](https://www.npmjs.com/package/share-loader)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/MrFrankel/share-loader/blob/master/LICENSE)
 
 <div align="center">
