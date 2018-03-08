@@ -7,8 +7,7 @@
   "main": "index.js",
   "scripts": {},
   "dependencies": {},
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/MrFrankel/share-loader.git"
