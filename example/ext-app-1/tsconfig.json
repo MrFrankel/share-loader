@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "types": ["node"],
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": false,
+    "lib": [
+      "es7",
+      "dom",
+      "es2017.object",
+      "es2015.iterable",
+      "ScriptHost"
+    ]
+  },
+  "include": [
+    "./app"
+  ]
+}

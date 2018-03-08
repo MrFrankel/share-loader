@@ -4,7 +4,7 @@ const {Externals} = require('./expose');
 
 module.exports = {
   entry: {
-    'games': './app/games.prod.module.ts'
+    'ext1': './app/ext.prod.module.ts'
   },
   module: {
     rules: [
@@ -37,6 +37,5 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin(),
-
   ]
-}
+}ף

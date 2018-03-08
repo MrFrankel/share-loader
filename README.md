@@ -1,7 +1,5 @@
-# share-loader
-
-[![npm](https://img.shields.io/npm/v/ngx-popper.svg?style=flat-square)](https://www.npmjs.com/package/share-loader)
-[![npm](https://img.shields.io/npm/dm/ngx-popper.svg?style=flat-square)](https://www.npmjs.com/package/share-loader)
+[![npm](https://img.shields.io/npm/v/share-loader.svg?style=flat-square)](https://www.npmjs.com/package/share-loader)
+[![npm](https://img.shields.io/npm/dm/share-loader.svg?style=flat-square)](https://www.npmjs.com/package/share-loader)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/MrFrankel/share-loader/blob/master/LICENSE)
 
 <div align="center">
@@ -10,124 +8,49 @@
     <img width="200" height="200" vspace="" hspace="25"
       src="https://cdn.rawgit.com/webpack/media/e7485eb2/logo/icon.svg">
   </a>
-  <h1>Expose Loader</h1>
-  <p>The expose loader adds modules to the global object. This is useful for debugging, or <a href="https://webpack.js.org/guides/shimming/">supporting libraries that depend on libraries in globals</a>.<p>
+  <h1>Share Loader</h1>
+  <p>The share loader allows you to share modules between webpack builds via a global namespace<p>
 </div>
 
 <h2 align="center">Install</h2>
 
 ```bash
-npm i expose-loader --save
+npm i share-loader --save-dev
 ```
-
+Or
+```bash
+yarn add share-loader --save-dev
+```
 <h2 align="center"><a href="https://webpack.js.org/concepts/loaders">Usage</a></h2>
 
-**Note**: Modules must be `require()`'d within in your bundle, or they will not
-be exposed.
-
-``` javascript
-require("expose-loader?libraryName!./file.js");
-// Exposes the exports for file.js to the global context on property "libraryName".
-// In web browsers, window.libraryName is then available.
-```
-
-For example, let's say you want to expose jQuery as a global called `$`:
-
-```js
-require("expose-loader?$!jquery");
-```
-
-Thus, `window.$` is then available in the browser console.
-
-Alternately, you can set this in your config file:
-
-webpack v1 usage
-```js
-module: {
-  loaders: [
-    { test: require.resolve("jquery"), loader: "expose-loader?$" }
-  ]
-}
-```
-webpack v2 usage
+webpack config of exposing app
 ```js
 module: {
   rules: [{
-          test: require.resolve('jquery'),
+          test: /\.js?$/,
           use: [{
-              loader: 'expose-loader',
-              options: '$'
+            loader: 'share-loader',
+            options: {
+              modules: [/@angular/, /@uirouter\/angular/],
+              namespace: 'some-name-space'
+            }
           }]
-      }]
+        }]
 }
 ```
 
-Let's say you also want to expose it as `window.jQuery` in addition to `window.$`.
-For multiple expose you can use `!` in loader string:
 
-webpack v1 usage
+webpack config of consumer apps
+
 ```js
-module: {
-  loaders: [
-    { test: require.resolve("jquery"), loader: "expose-loader?$!expose-loader?jQuery" },
-  ]
+externals: [
+  Externals({
+    namespace: 'some-name-space',
+    modules: [/@angular/, /@uirouter\/angular/]
+  })
+],
+output: {
+  library: 'some-name-space',
+  libraryTarget: 'umd'
 }
 ```
-webpack v2 usage
-```js
-module: {
-  rules: [{
-          test: require.resolve('jquery'),
-          use: [{
-              loader: 'expose-loader',
-              options: 'jQuery'
-          },{
-              loader: 'expose-loader',
-              options: '$'
-          }]
-      }]
-}
-```
-
-The [`require.resolve`](https://nodejs.org/api/all.html#modules_require_resolve)
-is a Node.js call (unrelated to `require.resolve` in webpack
-processing). `require.resolve` gives you the
-absolute path to the module (`"/.../app/node_modules/react/react.js"`). So the
-expose only applies to the react module. And it's only exposed when used in the
-bundle.
-
-
-<h2 align="center">Maintainers</h2>
-
-<table>
-  <tbody>
-    <tr>
-      <td align="center">``
-        <img width="150" height="150"
-        src="https://avatars3.githubusercontent.com/u/166921?v=3&s=150">
-        </br>
-        <a href="https://github.com/bebraw">Juho Vepsäläinen</a>
-      </td>
-      <td align="center">
-        <img width="150" height="150"
-        src="https://avatars2.githubusercontent.com/u/8420490?v=3&s=150">
-        </br>
-        <a href="https://github.com/d3viant0ne">Joshua Wiens</a>
-      </td>
-      <td align="center">
-        <img width="150" height="150"
-        src="https://avatars3.githubusercontent.com/u/533616?v=3&s=150">
-        </br>
-        <a href="https://github.com/SpaceK33z">Kees Kluskens</a>
-      </td>
-      <td align="center">
-        <img width="150" height="150"
-        src="https://avatars3.githubusercontent.com/u/3408176?v=3&s=150">
-        </br>
-        <a href="https://github.com/TheLarkInn">Sean Larkin</a>
-      </td>
-    </tr>
-  <tbody>
-</table>
-
-Share modules between webpack applications
