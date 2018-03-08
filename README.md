@@ -43,6 +43,8 @@ module: {
 webpack config of consumer apps
 
 ```js
+const {Externals} = require('./expose');
+
 externals: [
   Externals({
     namespace: 'some-name-space',
@@ -53,4 +55,13 @@ output: {
   library: 'some-name-space',
   libraryTarget: 'umd'
 }
+
+
+Example
+
+1. In the example folder, run npm install on each project,
+2. Run npm run build:prod in the ext-app-1 root
+2. Host the ext1.js file from ext-app-1 project in some localhost server
+3. Change the <%path-to-server-host%> in the shell project app.state.ts
+4. Run npm run serve:dev in the shell project root
 ```

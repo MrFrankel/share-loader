@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   styles: [`
     :host{
       display: block;
-      background: red;
+      background: blue;
       color: white;
     }
     

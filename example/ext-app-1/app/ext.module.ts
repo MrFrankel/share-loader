@@ -1,34 +1,27 @@
 import {NgModule} from '@angular/core';
 import {UIRouterModule} from '@uirouter/angular';
 import {BrowserModule} from '@angular/platform-browser';
-import {ExtComponent} from './games.component';
-import {SnakeComponent} from './snake/snake.component';
-import {BestScoreManager} from './snake/snake.storage.service';
-import {StopwatchComponent} from './stopwatch/stopwatch';
-import {StopwatchService} from './stopwatch/stopwatch.service';
+import {ExtComponent} from './ext.component';
+import {WelcomeComponent} from './welcome.component';
 
 @NgModule({
   imports: [BrowserModule, UIRouterModule.forRoot({
     states: [{
       name: 'home',
       url: '/home',
-      component: ExtComponent
+      component: ExtComponent,
     },
       {
-        name: 'snake',
-        url: '/snake',
-        component: SnakeComponent
-      },
-      {
-        name: 'stopwatch',
-        url: '/stopwatch',
-        component: StopwatchComponent
-      },
+        name: 'welcome',
+        url: '/welcome',
+        component: WelcomeComponent
+      }
     ]
   })],
-  declarations: [ExtComponent, SnakeComponent, StopwatchComponent],
+  declarations: [ExtComponent, WelcomeComponent],
   bootstrap: [ExtComponent],
-  providers: [BestScoreManager, StopwatchService],
+  providers: [],
   entryComponents: []
 })
-export class ExtModule {}
+export class ExtModule {
+}

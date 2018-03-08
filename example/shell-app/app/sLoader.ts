@@ -32,7 +32,6 @@ export function loadScript(url, name, module) {
   }
 
   return promise.then(() => {
-    debugger;
     if(global[name][module]) {
       return window[name][module];
     } else {

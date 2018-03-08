@@ -6,31 +6,21 @@ import {Component, ViewEncapsulation} from '@angular/core';
   styles: [`
     :host {
       display: block;
-      border: 5px solid green;
+      border: 5px solid red;
       min-height: 90vh;
+      background: red;
     }
 
     .btn {
-      text-align: center;
-      height: 100px;
-      padding-top: 20px;
-    }
-
-    a {
-      background: green;
-      border-radius: 5px;
-      cursor: pointer;
-      padding: 10px 20px;
+      background: purple;
       color: white;
-      text-decoration: none;
+      text-align: center;
+      height: 30px;
     }
   `],
   template: `
     <div>
-      <div class="btn">
-        <a uiSref="snake" uiSrefActive="active">Snake</a>
-        <a uiSref="stopwatch" uiSrefActive="active">Stopwatch</a>
-      </div>
+      <button class="btn" uiSref="welcome" >Show Welcome</button>
       <ui-view></ui-view>
     </div>
   `
