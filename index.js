@@ -21,11 +21,27 @@ function accesorString(value) {
   return result;
 }
 
+function propertyString(value) {
+  const childProperties = value.split(".");
+  const length = childProperties.length;
+  let propertyString = "global";
+
+  for (let i = 0; i < length; i++) {
+    propertyString += "[" + JSON.stringify(childProperties[i]) + "]";
+  }
+
+  return propertyString;
+}
+
 module.exports = function (input) {
   return input;
 };
 
 module.exports.pitch = function (remainingRequest) {
+  // Change the request from an /abolute/path.js to a relative ./path.js
+  // This prevents [chunkhash] values from changing when running webpack
+  // builds in different directories.
+  // this.loadModule('@angular/core', (a,b,c,d) =>{debugger;});
   if (this.query.modules && this.query.modules.length
     && this.query.modules
       .every(mdl => !this._module.rawRequest.match(new RegExp(mdl))))  {
@@ -42,9 +58,18 @@ module.exports.pitch = function (remainingRequest) {
   let request = this._module.rawRequest.split('!');
   request = request[request.length - 1].replace(/^@/i, '').replace(/\//g, '.');
   const globalVar = `${this.query.namespace.replace(/^\?/i, '')}.${request}`;
+
+
+  /*
+   * Workaround until module.libIdent() in webpack/webpack handles this correctly.
+   *
+   * fixes:
+   * - https://github.com/webpack-contrib/expose-loader/issues/55
+   * - https://github.com/webpack-contrib/expose-loader/issues/49
+   */
   this._module.userRequest = this._module.userRequest + '-exposed';
   return accesorString(globalVar) + " = " +
-    "require(" + JSON.stringify("-!" + newRequestPath) + ");";
+    "Object.assign(" + propertyString(globalVar) + " || {}, require(" + JSON.stringify("-!" + newRequestPath) + "));";
 };
 
 module.exports.Externals = function (options) {
