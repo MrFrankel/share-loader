@@ -1,6 +1,6 @@
 {
   "name": "share-loader",
-  "version": "0.0.1",
+  "version": "0.2.2",
   "author": "MFrankel",
   "description": "share loader module for webpack",
   "license": "MIT",
@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/MrFrankel/share-loader",
   "peerDependencies": {
-    "webpack": "^2.0.0 || ^3.0.0"
+    "webpack": "^2.0.0 || ^3.0.0 || ^4.0.0"
   },
   "engines": {
     "node": ">= 4.3 < 5.0.0 || >= 5.10"

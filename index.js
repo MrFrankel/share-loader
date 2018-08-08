@@ -77,6 +77,9 @@ module.exports.Externals = function (options) {
     if (options.modules.every(mdl => !request.match(new RegExp(mdl)))){
       return callback();
     }
+    if (options.exclude.some(mdl => request.match(new RegExp(mdl)))){
+      return callback();
+    }
     let newRequest = request.split('!');
     newRequest = newRequest[newRequest.length - 1].replace(/^./i, '').split('/');
     return callback(null, {
