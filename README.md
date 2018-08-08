@@ -32,6 +32,7 @@ module: {
             loader: 'share-loader',
             options: {
               modules: [/@angular/, /@uirouter\/angular/],
+              exclude: [/@angular\/material/],
               namespace: 'some-name-space'
             }
           }]
