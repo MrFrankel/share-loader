@@ -58,15 +58,6 @@ module.exports.pitch = function (remainingRequest) {
   let request = this._module.rawRequest.split('!');
   request = request[request.length - 1].replace(/^@/i, '').replace(/\//g, '.');
   const globalVar = `${this.query.namespace.replace(/^\?/i, '')}.${request}`;
-
-
-  /*
-   * Workaround until module.libIdent() in webpack/webpack handles this correctly.
-   *
-   * fixes:
-   * - https://github.com/webpack-contrib/expose-loader/issues/55
-   * - https://github.com/webpack-contrib/expose-loader/issues/49
-   */
   this._module.userRequest = this._module.userRequest + '-exposed';
   return accesorString(globalVar) + " = " +
     "Object.assign(" + propertyString(globalVar) + " || {}, require(" + JSON.stringify("-!" + newRequestPath) + "));";
@@ -77,11 +68,11 @@ module.exports.Externals = function (options) {
     if (options.modules.every(mdl => !request.match(new RegExp(mdl)))){
       return callback();
     }
-    if (options.exclude.some(mdl => request.match(new RegExp(mdl)))){
+    if (options.exclude && options.exclude.some(mdl => request.match(new RegExp(mdl)))){
       return callback();
     }
     let newRequest = request.split('!');
-    newRequest = newRequest[newRequest.length - 1].replace(/^./i, '').split('/');
+    newRequest = newRequest[newRequest.length - 1].replace(/^[./@]/i, '').split('/');
     return callback(null, {
       root: [options.namespace].concat(newRequest),
       commonjs: request,
