@@ -58,7 +58,7 @@ module.exports.pitch = function (remainingRequest) {
   let request = this._module.rawRequest.split('!');
   request = request[request.length - 1].replace(/^@/i, '').replace(/\//g, '.');
   const globalVar = `${this.query.namespace.replace(/^\?/i, '')}.${request}`;
-  this._module.userRequest = this._module.userRequest + '-exposed';
+  this._module.userRequest = this._module.userRequest + '-shared';
   return accesorString(globalVar) + " = " +
     "Object.assign(" + propertyString(globalVar) + " || {}, require(" + JSON.stringify("-!" + newRequestPath) + "));";
 };
