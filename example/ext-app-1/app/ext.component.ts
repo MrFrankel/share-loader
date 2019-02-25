@@ -20,8 +20,8 @@ import {Component, ViewEncapsulation} from '@angular/core'
   `],
   template: `
     <div>
-      <button class="btn" uiSref="welcome" >Show Welcome</button>
-      <ui-view></ui-view>
+      <button class="btn" routerLink="welcome" routerLinkActive="active" >Show Welcome</button>
+      <router-outlet></router-outlet>
     </div>
   `
 })

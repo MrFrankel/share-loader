@@ -4,8 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
-    'app': './app/main.ts',
-    'vendor': './app/vendor.ts'
+    'vendor': './app/vendor.ts',
+    'app': './app/main.ts'
   },
   module: {
     rules: [
@@ -28,9 +28,6 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './app/index.html'
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      names: ['vendor', 'manifest']
     }),
     new webpack.ContextReplacementPlugin(
       // The (\\|\/) piece accounts for path separators in *nix and Windows

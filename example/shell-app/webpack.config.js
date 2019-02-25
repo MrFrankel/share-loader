@@ -3,8 +3,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: {
-    'app': './app/main.ts',
-    'vendor': './app/vendor.ts'
+    'vendor': './app/vendor.ts',
+    'app': './app/main.ts'
+
   },
   module: {
     rules: [

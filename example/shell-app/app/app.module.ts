@@ -5,9 +5,10 @@ import {SelectComponent} from './select.component';
 import {UIRouterModule} from '@uirouter/angular';
 import {APP_STATES} from './app.states';
 import {App1Component} from './app1.component';
+import {RouterModule} from '@angular/router'
 
 @NgModule({
-  imports: [BrowserModule, UIRouterModule.forRoot({states: APP_STATES})],
+  imports: [BrowserModule,  RouterModule.forRoot(APP_STATES)],
   declarations: [AppComponent, SelectComponent, App1Component],
   bootstrap: [AppComponent]
 })

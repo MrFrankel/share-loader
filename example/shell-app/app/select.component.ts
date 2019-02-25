@@ -7,9 +7,9 @@ import { Component } from '@angular/core';
   `],
   template: `
     <div>
-      <a uiSref="app1" uiSrefActive="active">internal component</a>
-      <a uiSref="ext" uiSrefActive="active">external app</a>
-      <ui-view></ui-view>
+      <a routerLink="app1" routerLinkActive="active">internal component</a>
+      <a routerLink="ext" routerLinkActive="active">external app</a>
+      <router-outlet></router-outlet>
     </div>
   `
 })
