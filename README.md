@@ -44,7 +44,7 @@ module: {
 webpack config of consumer apps
 
 ```js
-const {Externals} = require('./expose');
+const {Externals} = require('./share-loader');
 
 externals: [
   Externals({
