@@ -65,4 +65,14 @@ Example
 2. Host the ext1.js file from ext-app-1 project in some localhost server
 3. Change the <%path-to-server-host%> in the shell project app.state.ts
 4. Run npm run serve:dev in the shell project root
+
+
+
+Example-cli
+1. In the example folder, run npm install on each project,
+2. Run npm run ng run ext-app1:build-ext in the ext-app1 root
+2. Host the main.js file from ext-app1 project in some localhost server
+3. Change the <%path-to-server-host%> in the shell project app.state.ts
+4. Run ng serve in the shell project root
+5. You can also run ext-app1 in standalone mode with ng serve
 ```

@@ -8,7 +8,7 @@ var path = require('path');
 function accesorString(value) {
   const childProperties = value.split(".");
   const length = childProperties.length;
-  let propertyString = "global";
+  let propertyString = "window";
   let result = "";
 
   for (let i = 0; i < length; i++) {
@@ -24,7 +24,7 @@ function accesorString(value) {
 function propertyString(value) {
   const childProperties = value.split(".");
   const length = childProperties.length;
-  let propertyString = "global";
+  let propertyString = "window";
 
   for (let i = 0; i < length; i++) {
     propertyString += "[" + JSON.stringify(childProperties[i]) + "]";
