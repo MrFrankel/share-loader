@@ -11,7 +11,7 @@ export const app2State = {
 
   /** Replace <%path-to-server-host%> with a server the will host the external application js**/
   loadChildren: () => {
-    return loadScript('http://localhost:63342/share-loader/example-cli/ext-app1/dist/main.js', 'extapp', 'AppModule');
+    return loadScript('<%path-to-server-host%>/main.js', 'extapp', 'AppModule');
   }
 };
 
