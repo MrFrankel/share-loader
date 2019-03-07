@@ -42,6 +42,9 @@ module.exports.pitch = function (remainingRequest) {
   // This prevents [chunkhash] values from changing when running webpack
   // builds in different directories.
   // this.loadModule('@angular/core', (a,b,c,d) =>{debugger;});
+  if (this.query.exclude.some(mdl => this._module.rawRequest.match(new RegExp(mdl)))){
+    return;
+  }
   if (this.query.modules && this.query.modules.length
     && this.query.modules
       .every(mdl => !this._module.rawRequest.match(new RegExp(mdl))))  {
