@@ -8,7 +8,7 @@ var path = require('path');
 function accesorString(value) {
   const childProperties = value.split(".");
   const length = childProperties.length;
-  let propertyString = "window";
+  let propertyString = "global";
   let result = "";
 
   for (let i = 0; i < length; i++) {
@@ -24,7 +24,7 @@ function accesorString(value) {
 function propertyString(value) {
   const childProperties = value.split(".");
   const length = childProperties.length;
-  let propertyString = "window";
+  let propertyString = "global";
 
   for (let i = 0; i < length; i++) {
     propertyString += "[" + JSON.stringify(childProperties[i]) + "]";
@@ -42,15 +42,13 @@ module.exports.pitch = function (remainingRequest) {
   // This prevents [chunkhash] values from changing when running webpack
   // builds in different directories.
   // this.loadModule('@angular/core', (a,b,c,d) =>{debugger;});
-  if (this.query.exclude.some(mdl => this._module.rawRequest.match(new RegExp(mdl)))){
-    return;
-  }
   if (this.query.modules && this.query.modules.length
     && this.query.modules
       .every(mdl => !this._module.rawRequest.match(new RegExp(mdl))))  {
     return;
   }
-  const newRequestPath = remainingRequest.replace(
+
+  let newRequestPath = remainingRequest.replace(
     this.resourcePath,
     '.' + path.sep + path.relative(this.context, this.resourcePath)
   );
@@ -58,30 +56,70 @@ module.exports.pitch = function (remainingRequest) {
   this.cacheable && this.cacheable();
   if (!this.query || !this.query.namespace || !this.query.modules) throw new Error("query parameter is missing");
   // Determine how to resolve the global object
+
+  let globalVar;
   let request = this._module.rawRequest.split('!');
-  request = request[request.length - 1].replace(/^@/i, '').replace(/\//g, '.');
-  const globalVar = `${this.query.namespace.replace(/^\?/i, '')}.${request}`;
+
+  if (this._module.userRequest.includes('/node_modules/')) {
+    request = request[request.length - 1].replace(/^@/i, '').replace(/\//g, '.');
+    globalVar = `${this.query.namespace.replace(/^\?/i, '')}.${request}`;
+  } else { //Use modules from parent app
+    request = request[request.length - 1].replace(/^./i, '').replace(/\//g, '.');
+    globalVar = `${this.query.namespace}${request}`;
+  }
+
   this._module.userRequest = this._module.userRequest + '-shared';
-  return accesorString(globalVar) + " = " +
+
+  const result = accesorString(globalVar) + " = " +
     "Object.assign(" + propertyString(globalVar) + " || {}, require(" + JSON.stringify("-!" + newRequestPath) + "));";
+  return result;
 };
 
-module.exports.Externals = function (options) {
-  return function (context, request, callback) {
-    if (options.modules.every(mdl => !request.match(new RegExp(mdl)))){
+module.exports.Externals = function(options) {
+  return function(context, request, callback) {
+    if (options.modules.every(mdl => !request.match(new RegExp(mdl)))) {
       return callback();
     }
-    if (options.exclude && options.exclude.some(mdl => request.match(new RegExp(mdl)))){
+    if (
+      options.exclude &&
+      options.exclude.some(mdl => request.match(new RegExp(mdl)))
+    ) {
       return callback();
     }
-    let newRequest = request.split('!');
-    newRequest = newRequest[newRequest.length - 1].replace(/^[./@]/i, '').split('/');
-    return callback(null, {
-      root: [options.namespace].concat(newRequest),
-      commonjs: request,
-      commonjs2: request,
-      amd: request
-    });
 
-  }
+    let newRequest = request.split('!');
+    newRequest = newRequest[newRequest.length - 1]
+      .replace(/^[./@]/i, '')
+      .split('/');
+
+    if (newRequest[0].startsWith('.') || newRequest[0] === '') {
+      //This case is for sharing objects from the parent application
+      const resourceArr = newRequest
+        .filter( resource =>!(resource === '.' || resource === '..') /* remove folder traversing */)
+        .map( resource => resource.split('.'));
+
+      const resources = resourceArr.concat.apply([], resourceArr)
+        .filter(r => r !== '' /*filter empty values*/ );
+
+      const commonJs = request.split('/')
+        .map(path => path.replace('..', ''))
+        .filter(path => path !== '')
+        .join('/');/* remove folder traversing */
+
+      return callback(null, {
+        root: [options.namespace].concat(resources),
+        commonjs: '.' + commonJs,
+        commonjs2: '.' + commonJs,
+        amd: '.' + commonJs
+      });
+
+    } else {
+      return callback(null, {
+        root: [options.namespace].concat(newRequest),
+        commonjs: request,
+        commonjs2: request,
+        amd: request
+      });
+    }
+  };
 };
