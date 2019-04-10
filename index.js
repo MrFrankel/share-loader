@@ -77,6 +77,7 @@ module.exports.pitch = function (remainingRequest) {
 
 module.exports.Externals = function(options) {
   return function(context, request, callback) {
+
     if (options.modules.every(mdl => !request.match(new RegExp(mdl)))) {
       return callback();
     }
@@ -92,31 +93,33 @@ module.exports.Externals = function(options) {
       .replace(/^[./@]/i, '')
       .split('/');
 
-    if (newRequest[0].startsWith('.') || newRequest[0] === '') {
+    if (newRequest[0].startsWith('.') || newRequest[0] === '' ) {
       //This case is for sharing objects from the parent application
-      const resourceArr = newRequest
-        .filter( resource =>!(resource === '.' || resource === '..') /* remove folder traversing */)
-        .map( resource => resource.split('.'));
+      let path;
 
-      const resources = resourceArr.concat.apply([], resourceArr)
-        .filter(r => r !== '' /*filter empty values*/ );
+      if (request.startsWith('../')) {
+        const parts = request.split('../');
+        path = parts[parts.length - 1];
+      } else {
+        const parts = context.split('/');
+        path = request.replace('./', parts[parts.length - 1] + '/');
+      }
 
-      const commonJs = request.split('/')
-        .map(path => path.replace('..', ''))
-        .filter(path => path !== '')
-        .join('/');/* remove folder traversing */
+      const resourceArr = path.split('/').map( resource => resource.split('.'));
+      const resources = resourceArr.concat.apply([], resourceArr);
 
+      path = `./${path}`;
       return callback(null, {
         root: [options.namespace].concat(resources),
-        commonjs: '.' + commonJs,
-        commonjs2: '.' + commonJs,
-        amd: '.' + commonJs
+        commonjs: path,
+        commonjs2: path,
+        amd: path
       });
 
     } else {
       return callback(null, {
         root: [options.namespace].concat(newRequest),
-        commonjs: request,
+        commonjs: request ,
         commonjs2: request,
         amd: request
       });
