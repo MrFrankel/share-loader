@@ -8,7 +8,7 @@ var path = require('path');
 function accesorString(value) {
   const childProperties = value.split(".");
   const length = childProperties.length;
-  let propertyString = "global";
+  let propertyString = "window";
   let result = "";
 
   for (let i = 0; i < length; i++) {
@@ -24,7 +24,7 @@ function accesorString(value) {
 function propertyString(value) {
   const childProperties = value.split(".");
   const length = childProperties.length;
-  let propertyString = "global";
+  let propertyString = "window";
 
   for (let i = 0; i < length; i++) {
     propertyString += "[" + JSON.stringify(childProperties[i]) + "]";
@@ -42,6 +42,10 @@ module.exports.pitch = function (remainingRequest) {
   // This prevents [chunkhash] values from changing when running webpack
   // builds in different directories.
   // this.loadModule('@angular/core', (a,b,c,d) =>{debugger;});
+  if (this.query.exclude && this.query.exclude.some(mdl => this._module.rawRequest.match(new RegExp(mdl)))){
+    return;
+  }
+
   if (this.query.modules && this.query.modules.length
     && this.query.modules
       .every(mdl => !this._module.rawRequest.match(new RegExp(mdl))))  {
@@ -70,9 +74,8 @@ module.exports.pitch = function (remainingRequest) {
 
   this._module.userRequest = this._module.userRequest + '-shared';
 
-  const result = accesorString(globalVar) + " = " +
+  return accesorString(globalVar) + " = " +
     "Object.assign(" + propertyString(globalVar) + " || {}, require(" + JSON.stringify("-!" + newRequestPath) + "));";
-  return result;
 };
 
 module.exports.Externals = function(options) {
