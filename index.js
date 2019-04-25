@@ -64,7 +64,7 @@ module.exports.pitch = function (remainingRequest) {
   let globalVar;
   let request = this._module.rawRequest.split('!');
 
-  if (this._module.userRequest.includes('/node_modules/')) {
+  if (this._module.userRequest.includes(path.sep + 'node_modules' + path.sep) {
     request = request[request.length - 1].replace(/^@/i, '').replace(/\//g, '.');
     globalVar = `${this.query.namespace.replace(/^\?/i, '')}.${request}`;
   } else { //Use modules from parent app
