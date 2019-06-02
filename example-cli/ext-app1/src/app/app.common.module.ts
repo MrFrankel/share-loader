@@ -1,12 +1,17 @@
 import {NgModule} from '@angular/core'
-import {AppComponent} from './app.component'
 import {ExtComponent} from './ext.component'
 import {WelcomeComponent} from './welcome.component'
+import {ReactiveFormsModule} from "@angular/forms";
+import {RouterModule} from "@angular/router";
+import {CommonModule} from "@angular/common";
 
-export const appModuleRoot: NgModule = {
-  imports: [],
-  declarations: [AppComponent, ExtComponent, WelcomeComponent],
+@NgModule({
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  declarations: [ExtComponent, WelcomeComponent],
   bootstrap: [],
+  entryComponents: [],
   providers: [],
-  exports: []
-};
+  exports: [ExtComponent, WelcomeComponent]
+})
+
+export class AppCommonModule {}

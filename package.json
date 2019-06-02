@@ -5,7 +5,10 @@
   "description": "share loader module for webpack",
   "license": "MIT",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "bootstrap": "cd example/ext-app-1 && npm install && cd ../shell-app && npm install && cd  ../../example-cli/ext-app1 && npm install && cd ../shell-app && npm install",
+    "audit": "cd example/ext-app-1 && npm audit fix && cd ../shell-app && npm audit fix && cd  ../../example-cli/ext-app1 && npm audit fix && cd ../shell-app && npm audit fix"
+  },
   "dependencies": {},
   "devDependencies": {},
   "repository": {

@@ -1,16 +1,17 @@
 import {NgModule} from '@angular/core'
 import {RouterModule} from '@angular/router'
-import {appModuleRoot} from './app.common.module'
-import {BrowserModule} from '@angular/platform-browser'
-import {AppComponent} from './app.component'
+import {AppCommonModule} from './app.common.module'
 import {appStates} from './app.states'
+import {CommonModule} from "@angular/common";
+import {ExtComponent} from "./ext.component";
 
-const appModule = appModuleRoot;
-appModule.imports.push(BrowserModule, RouterModule.forRoot(appStates));
-appModule.bootstrap.push(AppComponent);
+@NgModule({
+  imports: [AppCommonModule, CommonModule, RouterModule.forRoot(appStates)],
+  declarations: [],
+  bootstrap: [ExtComponent],
+  entryComponents: [],
+  providers: [],
+  exports: [RouterModule]
+})
 
-@NgModule(appModule)
-
-export class AppModule {
-}
-
+export class AppModule {}

@@ -6,16 +6,19 @@ export const app1State = {
   component: App1Component
 };
 
+export const load = () => {
+  return loadScript('http://localhost:4300/main.js', 'extapp', 'AppModule');
+}
 export const app2State = {
   path: 'ext',
 
   /** Replace <%path-to-server-host%> with a server the will host the external application js**/
-  loadChildren: () => {
-    return loadScript('<%path-to-server-host%>/main.js', 'extapp', 'AppModule');
-  }
+  loadChildren: load
 };
 
 export const APP_STATES = [
   app1State,
   app2State
 ];
+
+

@@ -1,9 +1,6 @@
 const path = require('path');
 const {Externals} = require('share-loader');
 module.exports = {
-  entry: {
-    'main': './src/app/app.external.module.ts'
-  },
   externals: [
     Externals({
       namespace: 'container-app',

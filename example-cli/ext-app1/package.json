@@ -4,7 +4,11 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:ext": "ng run ext-app1:serve-ext",
+    "start:ext:prod": "ng run ext-app1:serve-ext-prod",
     "build": "ng build",
+    "build:ext": "ng run ext-app1:build-ext",
+    "build:ext:prod": "ng run ext-app1:build-ext-prod --configuration=production",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -26,6 +30,7 @@
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "^7.4.1",
+    "@angular-builders/dev-server": "^7.3.1",
     "@angular-devkit/build-angular": "^0.13.9",
     "@angular/cli": "~7.3.4",
     "@angular/compiler-cli": "^7.2.7",
@@ -41,10 +46,13 @@
     "karma-coverage-istanbul-reporter": "~2.0.0",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.0",
+    "last-call-webpack-plugin": "^3.0.0",
     "protractor": "~5.4.2",
-    "share-loader": "^0.4.0",
+    "replace-in-file-webpack-plugin": "^1.0.6",
+    "share-loader": "^0.6.2",
     "ts-node": "~8.0.2",
     "tslint": "~5.13.1",
-    "typescript": "^3.1.1"
+    "typescript": "^3.1.1",
+    "webpack-plugin-replace": "^1.2.0"
   }
 }

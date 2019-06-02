@@ -42,17 +42,15 @@ module.exports.pitch = function (remainingRequest) {
   // This prevents [chunkhash] values from changing when running webpack
   // builds in different directories.
   // this.loadModule('@angular/core', (a,b,c,d) =>{debugger;});
-  if (this.query.exclude && this.query.exclude.some(mdl => this._module.rawRequest.match(new RegExp(mdl)))){
+  if (this.query.exclude.some(mdl => this._module.rawRequest.match(new RegExp(mdl)))){
     return;
   }
-
   if (this.query.modules && this.query.modules.length
     && this.query.modules
       .every(mdl => !this._module.rawRequest.match(new RegExp(mdl))))  {
     return;
   }
-
-  let newRequestPath = remainingRequest.replace(
+  const newRequestPath = remainingRequest.replace(
     this.resourcePath,
     '.' + path.sep + path.relative(this.context, this.resourcePath)
   );
@@ -60,72 +58,30 @@ module.exports.pitch = function (remainingRequest) {
   this.cacheable && this.cacheable();
   if (!this.query || !this.query.namespace || !this.query.modules) throw new Error("query parameter is missing");
   // Determine how to resolve the global object
-
-  let globalVar;
   let request = this._module.rawRequest.split('!');
-
-  if (this._module.userRequest.includes(path.sep + 'node_modules' + path.sep)) {
-    request = request[request.length - 1].replace(/^@/i, '').replace(/\//g, '.');
-    globalVar = `${this.query.namespace.replace(/^\?/i, '')}.${request}`;
-  } else { //Use modules from parent app
-    request = request[request.length - 1].replace(/^./i, '').replace(/\//g, '.');
-    globalVar = `${this.query.namespace}${request}`;
-  }
-
+  request = request[request.length - 1].replace(/^@/i, '').replace(/\//g, '.');
+  const globalVar = `${this.query.namespace.replace(/^\?/i, '')}.${request}`;
   this._module.userRequest = this._module.userRequest + '-shared';
-
   return accesorString(globalVar) + " = " +
     "Object.assign(" + propertyString(globalVar) + " || {}, require(" + JSON.stringify("-!" + newRequestPath) + "));";
 };
 
-module.exports.Externals = function(options) {
-  return function(context, request, callback) {
-
-    if (options.modules.every(mdl => !request.match(new RegExp(mdl)))) {
+module.exports.Externals = function (options) {
+  return function (context, request, callback) {
+    if (options.modules.every(mdl => !request.match(new RegExp(mdl)))){
       return callback();
     }
-    if (
-      options.exclude &&
-      options.exclude.some(mdl => request.match(new RegExp(mdl)))
-    ) {
+    if (options.exclude && options.exclude.some(mdl => request.match(new RegExp(mdl)))){
       return callback();
     }
-
     let newRequest = request.split('!');
-    newRequest = newRequest[newRequest.length - 1]
-      .replace(/^[./@]/i, '')
-      .split('/');
+    newRequest = newRequest[newRequest.length - 1].replace(/^[./@]/i, '').split('/');
+    return callback(null, {
+      root: [options.namespace].concat(newRequest),
+      commonjs: request,
+      commonjs2: request,
+      amd: request
+    });
 
-    if (newRequest[0].startsWith('.') || newRequest[0] === '' ) {
-      //This case is for sharing objects from the parent application
-      let path;
-
-      if (request.startsWith('../')) {
-        const parts = request.split('../');
-        path = parts[parts.length - 1];
-      } else {
-        const parts = context.split('/');
-        path = request.replace('./', parts[parts.length - 1] + '/');
-      }
-
-      const resourceArr = path.split('/').map( resource => resource.split('.'));
-      const resources = resourceArr.concat.apply([], resourceArr);
-
-      path = `./${path}`;
-      return callback(null, {
-        root: [options.namespace].concat(resources),
-        commonjs: path,
-        commonjs2: path,
-        amd: path
-      });
-
-    } else {
-      return callback(null, {
-        root: [options.namespace].concat(newRequest),
-        commonjs: request ,
-        commonjs2: request,
-        amd: request
-      });
-    }
-  };
+  }
 };

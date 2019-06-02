@@ -60,19 +60,18 @@ output: {
 
 Example
 
-1. In the example folder, run npm install on each project,
+1. In the root folder, run npm bootstrap
 2. Run npm run build:prod in the ext-app-1 root
-2. Host the ext1.js file from ext-app-1 project in some localhost server
-3. Change the <%path-to-server-host%> in the shell project app.state.ts
-4. Run npm run serve:dev in the shell project root
+3. Host the ext1.js file from ext-app-1 project in some localhost server
+4. Change the <%path-to-server-host%> in the shell project app.state.ts
+5. Run npm run serve:dev in the shell project root
 
 
 
 Example-cli
-1. In the example folder, run npm install on each project,
-2. Run npm run ng run ext-app1:build-ext in the ext-app1 root
-2. Host the main.js file from ext-app1 project in some localhost server
-3. Change the <%path-to-server-host%> in the shell project app.state.ts
-4. Run ng serve in the shell project root
+1. In the root folder, run npm bootstrap
+2. In "shell app" folder run npm run serve
+3. In the "ext-app1" folder run npm run serve:ext
+4. For AOT run npm serve --prod in "shell-app" and npm run serve:ext:prod in "ext-app1"
 5. You can also run ext-app1 in standalone mode with ng serve
 ```
