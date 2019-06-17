@@ -70,8 +70,8 @@ Example
 
 Example-cli
 1. In the root folder, run npm bootstrap
-2. In "shell app" folder run npm run serve
-3. In the "ext-app1" folder run npm run serve:ext
+2. In "shell app" folder run npm run start:prod
+3. In the "ext-app1" folder run npm run start:ext:prod
 4. For AOT run npm serve --prod in "shell-app" and npm run serve:ext:prod in "ext-app1"
 5. You can also run ext-app1 in standalone mode with ng serve
 ```
