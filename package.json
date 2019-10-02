@@ -1,6 +1,6 @@
 {
   "name": "share-loader",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "author": "MFrankel",
   "description": "share loader module for webpack",
   "license": "MIT",
