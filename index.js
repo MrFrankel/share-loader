@@ -70,8 +70,7 @@ module.exports.pitch = function (remainingRequest) {
   }
   
   this._module.userRequest = this._module.userRequest + '-shared';
-  return accesorString(globalVar) + " = " +
-    "Object.assign(" + propertyString(globalVar) + " || {}, require(" + JSON.stringify("-!" + newRequestPath) + "));";
+  return accesorString(globalVar) + " = require(" + JSON.stringify("-!" + newRequestPath) + ")";
 };
 
 module.exports.Externals = function (options) {
